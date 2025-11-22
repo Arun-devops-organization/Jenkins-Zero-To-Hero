@@ -17,8 +17,7 @@ pipeline {
 
     stage('Checkout') {
       steps {
-        sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/Arun-devops-organization/Jenkins-Zero-To-Hero.git'
+        git branch: 'main', url: 'https://github.com/Arun-devops-organization/Jenkins-Zero-To-Hero.git'
       }
     }
 
@@ -62,9 +61,9 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
           sh '''
-            git config user.email "arun@example.com"
-            git config user.name "Arun DevOps"
-            BUILD_NUMBER=${BUILD_NUMBER}
+            pwd && ls -ltr
+            git config user.email "arun.8467c@gmail.com"
+            git config user.name "Arun S"
             sed -i "s|replaceImageTag|${BUILD_NUMBER}|g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
             sed -i "s|abhishekf5/ultimate-cicd|arunsubbu8467/ultimate-cicd|g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
             git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
