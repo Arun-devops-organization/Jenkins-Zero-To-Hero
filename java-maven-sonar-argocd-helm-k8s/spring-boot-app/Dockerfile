@@ -3,7 +3,7 @@
 FROM eclipse-temurin:17-jre-alpine
 
 # Install Docker CLI (needed if you want docker commands inside container)
-RUN apk add --no-cache docker
+#RUN apk add --no-cache docker
 
 # Simply the artifact path
 ARG artifact=target/spring-boot-web.jar
