@@ -54,8 +54,14 @@ pipeline {
       }
     }
 
-   stage('Update Deployment File') {
+stage('Update Deployment File') {
+  agent {
+    node {
+      label 'master'
+    }
+  }
   steps {
+    checkout scm
     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
       sh '''
         git config user.email "arun.8467c@gmail.com"
@@ -65,7 +71,7 @@ pipeline {
         sed -i "s|abhishekf5/ultimate-cicd|arunsubbu8467/ultimate-cicd|g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
         git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-        git commit -m "Update deployment image to version ${BUILD_NUMBER}" || echo "No changes to commit"
+        git commit -m "Update image tag ${BUILD_NUMBER}" || echo "No changes"
         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
       '''
     }
