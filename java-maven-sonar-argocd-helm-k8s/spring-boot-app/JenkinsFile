@@ -57,7 +57,7 @@ pipeline {
 stage('Update Deployment File') {
   agent {
     node {
-      label 'master'
+      label 'main'
     }
   }
   steps {
