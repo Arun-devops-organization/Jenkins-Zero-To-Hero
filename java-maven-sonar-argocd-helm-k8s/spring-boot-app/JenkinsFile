@@ -56,7 +56,7 @@ pipeline {
       }
     }
 
-   stage('Update Deployment File') {
+ stage('Update Deployment File') {
   environment {
     GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
     GIT_USER_NAME = "Arun-devops-organization"
@@ -65,7 +65,9 @@ pipeline {
     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
       sh '''
         pwd && ls -a
-        git status
+
+        # Mark Jenkins workspace as safe for Git
+        git config --global --add safe.directory /var/lib/jenkins/workspace/ultimate-demo
 
         git config user.email "arun.8467c@gmail.com"
         git config user.name "arunsubbu8467"
