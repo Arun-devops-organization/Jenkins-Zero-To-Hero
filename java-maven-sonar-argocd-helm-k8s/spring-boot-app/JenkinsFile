@@ -1,11 +1,18 @@
 pipeline {
  agent {
-  docker {
-    image 'arun/maven-java17-docker'
-    args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+    docker {
+      image 'arunsubbu8467/maven-java17-docker'
+      args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+    }
   }
-}
   stages {
+     stage('Verify Tools') {
+      steps {
+        sh 'java -version'
+        sh 'mvn -v'
+        sh 'docker --version'
+      }
+    }
     stage('Checkout') {
       steps {
         sh 'echo passed'
