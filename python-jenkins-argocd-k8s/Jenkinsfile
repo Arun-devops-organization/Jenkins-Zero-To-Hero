@@ -28,16 +28,19 @@ pipeline {
             }
         }
 
-        stage('Push the artifacts'){
-           steps{
-                script{
-                    sh '''
-                    echo 'Push to Repo'
-                    docker push arunsubbu8467/cicd-e2e:${BUILD_NUMBER}
-                    '''
-                }
+     stage('Push the artifacts') {
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                sh '''
+                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                docker push arunsubbu8467/cicd-e2e:${BUILD_NUMBER}
+                '''
             }
         }
+    }
+}
+
         
         stage('Checkout K8S manifest SCM'){
             steps {
