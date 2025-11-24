@@ -51,22 +51,22 @@ pipeline {
         }
         
         stage('Update K8S manifest & push to Repo') {
-    steps {
-        script {
-            withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
-                sh '''
-                cd python-jenkins-argocd-k8s
-                sed -i "s|image: .*|image: arunsubbu8467/cicd-e2e:${BUILD_NUMBER}|" deploy.yaml
-                git config user.email "your-email@example.com"
-                git config user.name "Arun Subbu"
-                git add deploy.yaml
-                git commit -m "Update image tag to ${BUILD_NUMBER}"
-                git push https://$GIT_TOKEN@github.com/Arun-devops-organization/Jenkins-Zero-To-Hero.git HEAD:main
-                '''
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
+                        sh '''
+                        cd python-jenkins-argocd-k8s/deploy
+                        sed -i "s|image: .*|image: arunsubbu8467/cicd-e2e:${BUILD_NUMBER}|" deploy.yaml
+                        git config user.email "your-email@example.com"
+                        git config user.name "Arun Subbu"
+                        git add deploy/deploy.yaml
+                        git commit -m "Update image tag to ${BUILD_NUMBER}"
+                        git push https://$GIT_TOKEN@github.com/Arun-devops-organization/Jenkins-Zero-To-Hero.git HEAD:main
+                        '''
+                    }
+                }
             }
         }
-    }
-}
 
 }
 }
